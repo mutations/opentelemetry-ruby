@@ -3,6 +3,7 @@
 # Copyright 2019 OpenTelemetry Authors
 #
 # SPDX-License-Identifier: Apache-2.0
+require 'singleton'
 
 module OpenTelemetry
   module SDK
