@@ -244,7 +244,7 @@ module OpenTelemetry
           @total_recorded_attributes = attributes&.size || 0
           @start_timestamp = start_timestamp
           @end_timestamp = nil
-          @attributes = attributes&.clone
+          @attributes = attributes&.clone(freeze: false)
           @events = events&.clone
           @links = links&.clone
           trace_config.trim_span_attributes(@attributes)
