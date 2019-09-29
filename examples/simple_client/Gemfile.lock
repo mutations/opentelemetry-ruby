@@ -1,0 +1,28 @@
+PATH
+  remote: /app/api
+  specs:
+    opentelemetry-api (0.0.0)
+
+PATH
+  remote: /app/sdk
+  specs:
+    opentelemetry-sdk (0.0.0)
+      opentelemetry-api (~> 0.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    faraday (0.16.1)
+      multipart-post (>= 1.2, < 3)
+    multipart-post (2.1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  faraday (~> 0.16.1)
+  opentelemetry-api!
+  opentelemetry-sdk!
+
+BUNDLED WITH
+   2.0.2
