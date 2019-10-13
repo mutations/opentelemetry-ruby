@@ -34,6 +34,19 @@ describe OpenTelemetry::Trace::Tracer do
         tracer.current_span.must_equal(span)
       end
     end
+
+    it 'finishes the new span at the end of the block' do
+      finished = false
+
+      tracer.in_span('wrapper') do |span|
+        # Override the default noop `#finish` for testing
+        span.define_singleton_method(:finish) do
+          finished = true
+        end
+      end
+
+      finished.must_equal(true)
+    end
   end
 
   describe '#with_span' do

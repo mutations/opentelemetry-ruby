@@ -36,6 +36,16 @@ describe OpenTelemetry::SDK::Trace::Tracer do
     end
   end
 
+  describe '#in_span' do
+    let(:context) { OpenTelemetry::Trace::SpanContext.new }
+
+    it 'finishes the new span at the end of the block' do
+      new_span = nil
+      tracer.in_span('wrapper') { |span| new_span = span }
+      new_span.instance_variable_get(:@ended).must_equal(true)
+    end
+  end
+
   describe '#shutdown' do
     let(:mock_span_processor) { Minitest::Mock.new }
 
@@ -77,6 +87,7 @@ describe OpenTelemetry::SDK::Trace::Tracer do
     it 'adds the span processor to the active span processors' do
       mock_span_processor = Minitest::Mock.new
       mock_span_processor.expect(:on_start, nil, [Span])
+      mock_span_processor.expect(:on_finish, nil, [Span])
       tracer.add_span_processor(mock_span_processor)
       tracer.in_span('span') {}
       mock_span_processor.verify

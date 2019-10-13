@@ -30,6 +30,7 @@ module OpenTelemetry
       def in_span(name, attributes: nil, links: nil, start_timestamp: nil, kind: nil, sampling_hint: nil)
         span = start_span(name, attributes: attributes, links: links, start_timestamp: start_timestamp, kind: kind, sampling_hint: sampling_hint)
         with_span(span) { |s| yield s }
+        span.finish
       end
 
       def with_span(span)
