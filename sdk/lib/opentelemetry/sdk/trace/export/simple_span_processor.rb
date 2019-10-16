@@ -12,7 +12,7 @@ module OpenTelemetry
         # {Span} to {io.opentelemetry.proto.trace.v1.Span} and passes it to the
         # configured exporter.
         #
-        # Only spans that are recorded are converted, {OpenTelemetry::Trace::Span#is_recording?} must
+        # Only spans that are recorded are converted, {OpenTelemetry::Trace::Span#recording_events?} must
         # return true.
         class SimpleSpanProcessor
           # Returns a new {SimpleSpanProcessor} that converts spans to
