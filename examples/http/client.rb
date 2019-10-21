@@ -37,10 +37,18 @@ tracer.add_span_processor(processor)
 connection = Faraday.new("http://#{host}:4567")
 url = '/hello'
 
-tracer.in_span('http.client.get') do |span|
-  span.set_attribute('http.client.url', url)
-  span.set_attribute('http.client.method', 'GET')
+# For attribute naming, see:
+# https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/data-semantic-conventions.md#http-client
+
+# Span name should be set to URI path value:
+tracer.in_span('/hello', kind: 'Client') do |span|
+  span.set_attribute('component', 'http')
+  span.set_attribute('http.method', 'GET')
   span.add_event(name: 'request http.client.get')
 
-  connection.get(url)
+  connection.get(url).tap do |response|
+    span.set_attribute('http.url', response.env.url.to_s)
+    span.set_attribute('http.status_code', response.status)
+    span.set_attribute('http.status_text', response.reason_phrase)
+  end
 end
