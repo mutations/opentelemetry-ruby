@@ -10,6 +10,8 @@ require 'opentelemetry/context'
 require 'opentelemetry/distributed_context'
 require 'opentelemetry/internal'
 require 'opentelemetry/metrics'
+require 'opentelemetry/strict'
+require 'opentelemetry/strict_mode'
 require 'opentelemetry/trace'
 require 'opentelemetry/version'
 

@@ -8,6 +8,30 @@ require 'test_helper'
 
 describe OpenTelemetry::Trace::Event do
   Event = OpenTelemetry::Trace::Event
+
+  describe 'Strict' do
+    class StrictEvent < Event; end
+    StrictEvent.prepend(Event::Strict)
+
+    describe '.new' do
+      it 'raises an error if name is not a string' do
+        proc { StrictEvent.new(name: 1) }.must_raise(ArgumentError)
+      end
+
+      it 'raises an error with invalid attributes' do
+        proc {
+          StrictEvent.new(name: 'test', attributes: { foo: 'bar' })
+        }.must_raise(ArgumentError)
+      end
+
+      it 'calls default method if static checks pass' do
+        event = Event.new(name: 'test', attributes: { 'key' => 'value' })
+        event.name.must_equal('test')
+        event.attributes['key'].must_equal('value')
+      end
+    end
+  end
+
   describe '.new' do
     it 'accepts a name' do
       event = Event.new(name: 'message')

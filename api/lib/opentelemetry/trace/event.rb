@@ -8,6 +8,17 @@ module OpenTelemetry
   module Trace
     # A text annotation with a set of attributes and a timestamp.
     class Event
+      include OpenTelemetry::Strict
+
+      module Strict
+        def initialize(name:, attributes: nil, **)
+          raise ArgumentError unless name.is_a?(String)
+          raise ArgumentError unless OpenTelemetry::Strict::Checks.valid_attributes?(attributes)
+
+          super
+        end
+      end
+
       EMPTY_ATTRIBUTES = {}.freeze
 
       private_constant :EMPTY_ATTRIBUTES
