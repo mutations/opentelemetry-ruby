@@ -16,11 +16,9 @@ The example uses Docker Compose to make it a bit easier to get things up and run
 1. Follow the `Developer Setup` instructions in [the main README](../../README.md)
 
 
-1. Bring the server up using the `ex-http-server` compose service
-    * `dcu ex-http-server`
-1. Use a second shell session to get an interactive prompt in the client container using the `ex-http-client` compose service
-    * `dcr --service-ports ex-http-client`
-    * The `service-ports` are required to allow the client and server to communicate
+1. Bring the server up using the `ex-http` compose service
+    * `docker-compose up ex-http`
+1. After a few seconds, an interactive shell should appear
 1. Run the client
-    * `bundle exec ruby client.rb`
+    * `./client.rb`
 1. You should see console exporter output for both the client and server sessions
