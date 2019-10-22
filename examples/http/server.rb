@@ -41,9 +41,20 @@ class App < Sinatra::Base
 
   get '/hello' do
     # TODO: extract context, attrs
-    settings.tracer.in_span('http.server.get') do |span|
-      span.set_attribute('http.server.url', request.path)
-      span.set_attribute('http.server.method', request.request_method)
+
+    # If route is available, use it:
+    span_name = env['sinatra.route'].split.last
+    # Otherwise, use RFC 3986 URI path value:
+    # span_name = request.path
+
+    settings.tracer.in_span(span_name, kind: 'Server') do |span|
+      # For attribute naming, see
+      # https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/data-semantic-conventions.md#http-server
+      span.set_attribute('component', 'http')
+      span.set_attribute('http.url', env['REQUEST_URI'])
+      span.set_attribute('http.route', env['sinatra.route'].split.last)
+      span.set_attribute('http.method', request.request_method)
+      span.set_attribute('http.status_code', response.status)
       span.add_event(name: 'handle http.server.get')
     end
 
