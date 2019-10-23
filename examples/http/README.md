@@ -17,7 +17,7 @@ The example uses Docker Compose to make it a bit easier to get things up and run
 
 
 1. Bring the server up using the `ex-http` compose service
-    * `docker-compose up ex-http`
+    * `docker-compose run ex-http`
 1. After a few seconds, an interactive shell should appear
 1. Run the client
     * `./client.rb`
