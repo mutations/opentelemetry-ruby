@@ -14,12 +14,10 @@ module OpenTelemetry
     end
 
     def with(key, value)
-      store = storage
-      previous = store[key]
-      store[key] = value
+      previous, storage[key] = storage[key], value
       yield value
     ensure
-      store[key] = previous
+      storage[key] = previous
     end
 
     private
