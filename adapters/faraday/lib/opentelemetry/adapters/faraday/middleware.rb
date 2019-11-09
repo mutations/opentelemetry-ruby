@@ -10,8 +10,8 @@ module OpenTelemetry
       class Middleware < ::Faraday::Middleware
         def call(env)
           tracer.in_span(env.url.to_s,
-                         attributes: { 'component': 'http',
-                                       'http.method': env.method },
+                         attributes: { 'component' => 'http',
+                                       'http.method' => env.method },
                          kind: :client) do |span|
             trace_request(span, env)
 
