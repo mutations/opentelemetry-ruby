@@ -4,6 +4,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+require_relative 'middleware'
+require_relative 'patches/rack_builder'
+
 module OpenTelemetry
   module Adapters
     module Faraday
@@ -20,12 +23,10 @@ module OpenTelemetry
         private
 
         def register_middleware
-          require_relative 'middleware'
           ::Faraday::Middleware.register_middleware(opentelemetry: Middleware)
         end
 
         def add_default_middleware
-          require_relative 'patches/rack_builder'
           ::Faraday::RackBuilder.send(:prepend, Patches::RackBuilder)
         end
       end
