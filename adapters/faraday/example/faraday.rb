@@ -15,7 +15,7 @@ factory.add_span_processor(
   )
 )
 
-OpenTelemetry::Adapters::Faraday.install(name: 'my-name', version: '1')
+OpenTelemetry::Adapters::Faraday.install(name: 'faraday-example', version: '1.0')
 
 conn = Faraday.new('http://example.com')
 conn.get '/'
