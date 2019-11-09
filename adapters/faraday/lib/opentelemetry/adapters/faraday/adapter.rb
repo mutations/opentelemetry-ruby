@@ -11,20 +11,7 @@ require_relative 'patches/rack_builder'
 module OpenTelemetry
   module Adapters
     module Faraday
-      class Adapter
-        class << self
-          attr_reader :config
-
-          def install(config = {})
-            @config = config
-            new.install
-          end
-
-          def tracer
-            OpenTelemetry.tracer_factory.tracer(config[:name], config[:version])
-          end
-        end
-
+      class Adapter < OpenTelemetry::Adapter
         def install
           register_middleware
           add_default_middleware
