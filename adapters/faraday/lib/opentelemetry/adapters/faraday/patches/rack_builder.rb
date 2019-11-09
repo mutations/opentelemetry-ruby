@@ -10,7 +10,8 @@ module OpenTelemetry
       module Patches
         module RackBuilder
           def adapter(*args)
-            use(:opentelemetry) unless @handlers.any? { |h| h.klass == Middleware }
+            # TODO: inject config
+            use(:open_telemetry, config) unless @handlers.any? { |h| h.klass == Middleware }
 
             super
           end

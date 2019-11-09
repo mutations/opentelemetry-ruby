@@ -8,6 +8,11 @@ module OpenTelemetry
   module Adapters
     module Faraday
       class Middleware < ::Faraday::Middleware
+        def initialize(app, config: {})
+          super(app)
+          @config = config
+        end
+
         def call(env)
           tracer.in_span(env.request_uri,
                          attributes: { 'component': 'http',
