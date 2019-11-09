@@ -10,7 +10,9 @@ module OpenTelemetry
       module Patches
         module RackBuilder
           def adapter(*args)
-            use(:open_telemetry) unless @handlers.any? { |h| h.klass == Middleware }
+            use(:open_telemetry) unless @handlers.any? do |handler|
+              handler.klass == OpenTelemetry::Adapters::Faraday::Middleware
+            end
 
             super
           end
