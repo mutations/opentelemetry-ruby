@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 require_relative 'middleware'
+require_relative 'patches/faraday_connection_options'
 require_relative 'patches/rack_builder'
 
 module OpenTelemetry
@@ -12,16 +13,16 @@ module OpenTelemetry
     module Faraday
       class Adapter
         class << self
-          @default_config
-          attr_accessor :default_config
+          attr_reader :config
 
-          def install
-            new.install(config: default_config)
+          def install(config = {})
+            @config = config
+            new.install
           end
-        end
 
-        def initialize(config: {})
-          @config = config
+          def tracer
+            OpenTelemetry.tracer_factory.tracer(config[:name], config[:version])
+          end
         end
 
         def install
@@ -36,7 +37,13 @@ module OpenTelemetry
         end
 
         def add_default_middleware
-          ::Faraday::RackBuilder.send(:prepend, Patches::RackBuilder)
+          # TODO: Choose an option
+
+          # Possibly cleaner but issues a warning: WARNING: Unexpected middleware set after the adapter. This won't be supported from Faraday 1.0.
+          # ::Faraday::ConnectionOptions.prepend(Patches::FaradayConnectionOptions)
+
+          # Not as clean but used by DataDog without warnings
+          ::Faraday::RackBuilder.prepend(Patches::RackBuilder)
         end
       end
     end

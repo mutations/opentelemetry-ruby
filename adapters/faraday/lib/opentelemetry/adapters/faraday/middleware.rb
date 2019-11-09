@@ -14,9 +14,9 @@ module OpenTelemetry
         end
 
         def call(env)
-          tracer.in_span(env.request_uri,
+          tracer.in_span(env.url.to_s,
                          attributes: { 'component': 'http',
-                                       'http.method': env.request.method },
+                                       'http.method': env.method },
                          kind: :client) do |span|
             trace_request(span, env)
 
@@ -29,7 +29,7 @@ module OpenTelemetry
         attr_reader :app
 
         def tracer
-          OpenTelemetry.tracer_factory.tracer(Faraday::LIBRARY, Faraday::TRACER_VERSION)
+          Faraday::Adapter.tracer
         end
 
         def trace_request(span, env)
