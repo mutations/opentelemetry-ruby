@@ -9,12 +9,12 @@ module OpenTelemetry
     module Sinatra
       module_function
 
-      LIBRARY = 'sinatra'
-      TRACER_VERSION = Gem.loaded_specs[LIBRARY]
+      TRACER_NAME = 'sinatra'
+      TRACER_VERSION = Gem.loaded_specs[TRACER_NAME].version.to_s
 
-      def install
+      def install(config = {name: TRACER_NAME, version: TRACER_VERSION})
         require_relative 'sinatra/adapter'
-        Sinatra::Adapter.install
+        Sinatra::Adapter.install(config)
       end
     end
   end
