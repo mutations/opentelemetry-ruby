@@ -46,6 +46,7 @@ commands:
       - run:
           name: Bundle + CI (Adapters - Faraday)
           command: |
+            export BUNDLE_GEMFILE=Gemfile
             cd adapters/faraday
             gem install --no-document bundler
             bundle install --jobs=3 --retry=3
