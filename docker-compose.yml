@@ -32,6 +32,10 @@ services:
     <<: *base
     working_dir: /app/adapters/rack/example
 
+  ex-adapter-rack-grape:
+    <<: *base
+    working_dir: /app/adapters/rack/example-grape
+
   ex-adapter-sinatra:
     <<: *base
     working_dir: /app/adapters/sinatra/example
