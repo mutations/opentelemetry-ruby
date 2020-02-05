@@ -25,4 +25,5 @@ OpenTelemetry::SDK.configure do |c|
   c.use 'OpenTelemetry::Adapters::Rack'
 end
 
+use OpenTelemetry::Adapters::Rack::Middlewares::TracerMiddleware
 run ExampleAPI

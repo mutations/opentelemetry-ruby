@@ -21,6 +21,7 @@ end
 require_relative 'example_api'
 
 builder = Rack::Builder.new_from_string(<<-EOS)
+  use OpenTelemetry::Adapters::Rack::Middlewares::TracerMiddleware
   run ExampleAPI
 EOS
 
