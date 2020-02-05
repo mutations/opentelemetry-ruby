@@ -9,6 +9,10 @@ require 'bundler/setup'
 
 Bundler.require
 
+# run via, e.g.,
+# $ docker-compose run --rm ex-adapter-rack-grape
+# bash-5.0$ ruby trace_demonstration.rb
+
 OpenTelemetry::SDK.configure do |c|
   c.use 'OpenTelemetry::Adapters::Rack'
 end
