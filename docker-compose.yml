@@ -24,6 +24,10 @@ services:
       context: .
     working_dir: /app
 
+  ex-adapter-active-support:
+    <<: *base
+    working_dir: /app/adapters/active_support/example
+
   ex-adapter-excon:
     <<: *base
     working_dir: /app/adapters/excon/example
